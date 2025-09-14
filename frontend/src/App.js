@@ -1,17 +1,24 @@
-import React, { useEffect, useState } from "react"
-export default function App() {
-  const [ping, setPing] = useState("")
-  useEffect(() => {
-    fetch((process.env.REACT_APP_API || "/api") + "/ping")
-      .then(r => r.ok ? r.json() : Promise.reject(r.status))
-      .then(j => setPing(JSON.stringify(j)))
-      .catch(() => setPing("error"))
-  }, [])
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.css";
+
+// Import components
+import Navbar from "./components/navbar";
+import RecordList from "./components/recordList";
+import Edit from "./components/edit";
+import Create from "./components/create";
+
+const App = () => {
   return (
-    <div style={{fontFamily:"system-ui, Arial", padding:"1rem"}}>
-      <h1>Employee Manager</h1>
-      <p>Frontend is running on port 3000.</p>
-      <p>Backend ping: {ping || "..."}</p>
+    <div>
+      <Navbar />
+      <Routes>
+        <Route exact path="/" element={<RecordList />} />
+        <Route path="/edit/:id" element={<Edit />} />
+        <Route path="/create" element={<Create />} />
+      </Routes>
     </div>
-  )
-}
+  );
+};
+
+export default App;

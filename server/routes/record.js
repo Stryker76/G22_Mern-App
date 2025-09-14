@@ -27,7 +27,7 @@ recordRoutes.route("/record/:id").get(async function (req, res) {
 })
 
 // This section will help you create a new record.
-recordRoutes.route("/record/add").post(async function (req, res) {
+recordRoutes.route("/record").post(async function (req, res) {
     const db_connect = dbo.getDb()
     const myobj = {
         name: req.body.name,
@@ -44,7 +44,7 @@ recordRoutes.route("/record/add").post(async function (req, res) {
 })
 
 // This section will help you update a record by id.
-recordRoutes.route("/update/:id").post(async function (req, res) {
+recordRoutes.route("/record/:id").patch(async function (req, res) {
     const db_connect = dbo.getDb()
     const myquery = { _id: new ObjectId(req.params.id) }
     const newvalues = {
@@ -64,7 +64,7 @@ recordRoutes.route("/update/:id").post(async function (req, res) {
 })
 
 // This section will help you delete a record
-recordRoutes.route("/:id").delete(async function (req, res) {
+recordRoutes.route("/record/:id").delete(async function (req, res) {
     const db_connect = dbo.getDb()
     const myquery = { _id: new ObjectId(req.params.id) }
     try {
