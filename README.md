@@ -1,12 +1,10 @@
-# Basic MERN App
-
-![my picture](https://doananhtingithub40102.github.io/MyData/mern/mypicture.png)
+# G22 MERN App
 
 A full-stack [MERN](https://www.mongodb.com/mern-stack) application for managing information of employees.
 
 ## About the project
 
-This is a full-stack MERN application that manages the basic information of employees. The app uses an employee database from the MongoDB Atlas database and then display it using a React.
+This is a full-stack MERN application that manages the basic information of employees. The app uses an employee database from MongoDB and displays it using a React frontend.
 
 ## Tech Stack
 
@@ -16,56 +14,50 @@ This is a full-stack MERN application that manages the basic information of empl
 
 **Database:** MongoDB
 
-## Run Locally
+## Run locally
 
-Clone the project
-
+### Quick Start (Development)
 ```bash
-  git clone https://github.com/doananhtingithub40102/mern-app.git
+git clone https://github.com/Stryker76/G22_Mern-App.git
+cd G22_Mern-App
+npm run install:all
+cp .env.example .env
+npm run dev
 ```
 
-Go to the project directory
+### Expected URLs (Development)
+* API: [http://localhost:5000](http://localhost:5000) or whatever `PORT` in `.env`
+* Frontend: [http://localhost:3000](http://localhost:3000)
 
+### Docker Compose Deployment
 ```bash
-  cd mern-app
+# Deploy with Docker Compose (includes database UI)
+./deploy-docker.sh
+
+# Or manually:
+docker-compose up --build -d
 ```
 
-Create an Atlas URI connection parameter in `server/.env` with your Atlas URI:
-```
-ATLAS_URI="mongodb+srv://<username>:<password>@cluster0.6cgz2s1.mongodb.net/?retryWrites=true&w=majority"
-PORT=5000
-```
+**Access URLs (Docker Compose):**
+* **Frontend**: https://localhost:443
+* **Database UI**: https://localhost:443/db/ (admin/g22)
+* **API**: https://localhost:443/api
 
-Create an hostname on server enviroment variable in `client/.env` with your hostname on server:
-```
-REACT_APP_YOUR_HOSTNAME="http://localhost:5000"
-```
-
-Install dependencies
-
+### Kubernetes Deployment
 ```bash
-  cd server
-  npm install
+# Deploy with Kubernetes
+./deploy-k8s.sh
+
+# Or manually:
+kubectl apply -f infra/k8s/
 ```
 
-```bash
-  cd client
-  npm install
-```
+**Access URLs (Kubernetes):**
+* **Frontend**: http://localhost:32000
+* **Database UI**: http://localhost:30081 (admin/g22)
+* **API**: http://localhost:30080
 
-Start the server
-
-```bash
-  cd server
-  node server.js
-```
-Start the Client
-
-```bash
-  cd client
-  npm start
-```
-  
+📋 **For detailed deployment instructions, see [DEPLOYMENT-GUIDE.md](DEPLOYMENT-GUIDE.md)**
 
 ## Features in the project
 
@@ -100,7 +92,3 @@ Start the Client
 **Fullstack**
 
 * Learn all about the [MERN stack](https://www.mongodb.com/languages/mern-stack-tutorial) in this step-by-step guide on how to use it by developing a simple CRUD application from scratch.
-
-## Live app
-
-<a href="https://employee-manager-tindoan-xu3i.onrender.com/">Live fullstack MERN app</a>
