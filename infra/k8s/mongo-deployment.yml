@@ -29,6 +29,7 @@ spec:
       containers:
         - name: mongo
           image: mongo:6
+          command: ["mongod", "--bind_ip_all"]
           env:
             - name: MONGO_INITDB_ROOT_USERNAME
               value: admin

@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: mongo
 spec:
-  type: ClusterIP
+  type: NodePort
   selector:
     app: mongo
   ports:
@@ -11,3 +11,4 @@ spec:
       protocol: TCP
       port: 27017
       targetPort: 27017
+      nodePort: 30017
