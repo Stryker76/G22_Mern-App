@@ -1,2 +1,9 @@
 node_modules
+npm-debug.log*
+pnpm-lock.yaml
+yarn.lock
+package-lock.json
+.DS_Store
 .env
+nginx/certs/*
+reports/*

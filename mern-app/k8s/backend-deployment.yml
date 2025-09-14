@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  labels:
+    app: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: backend:1.0
+          env:
+            - name: PORT
+              value: "5000"
+            - name: ATLAS_URI
+              value: mongodb://appuser:pass@mongo:27017/employees?authSource=employees
+          ports:
+            - containerPort: 5000

@@ -1,0 +1,91 @@
+name: mern-stack
+networks:
+  frontend_net:
+  backend_net:
+  db_net:
+volumes:
+  mongo_data:
+services:
+  mongo:
+    image: mongo:6
+    container_name: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${ADMIN_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${ADMIN_PASS}
+      APP_DB_NAME: ${APP_DB_NAME}
+      APP_DB_USERNAME: ${APP_DB_USERNAME}
+      APP_DB_PASSWORD: ${APP_DB_PASSWORD}
+      MONGO_INITDB_DATABASE: ${APP_DB_NAME}
+    ports:
+      - "${MONGO_PORT}:27017"
+    volumes:
+      - mongo_data:/data/db
+      - ./server/db/init:/docker-entrypoint-initdb.d:ro
+    networks:
+      - db_net
+  backend:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: backend
+    restart: always
+    environment:
+      PORT: ${BACKEND_PORT}
+      ATLAS_URI: mongodb://${APP_DB_USERNAME}:${APP_DB_PASSWORD}@mongo:27017/${APP_DB_NAME}?authSource=${APP_DB_NAME}
+    depends_on:
+      - mongo
+    expose:
+      - "${BACKEND_PORT}"
+    networks:
+      - backend_net
+      - db_net
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    restart: always
+    environment:
+      PORT: ${FRONTEND_PORT}
+    depends_on:
+      - backend
+    expose:
+      - "${FRONTEND_PORT}"
+    networks:
+      - frontend_net
+      - backend_net
+  mongo-express:
+    image: mongo-express:1.0.2-20
+    container_name: mongo-express
+    restart: always
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${ADMIN_USER}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${ADMIN_PASS}
+      ME_CONFIG_MONGODB_URL: mongodb://${ADMIN_USER}:${ADMIN_PASS}@mongo:27017/?authSource=admin
+      ME_CONFIG_BASICAUTH: "true"
+      ME_CONFIG_BASICAUTH_USERNAME: ${ADMIN_USER}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${ADMIN_PASS}
+    depends_on:
+      - mongo
+    expose:
+      - "8081"
+    networks:
+      - backend_net
+      - db_net
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    restart: always
+    depends_on:
+      - frontend
+      - backend
+    ports:
+      - "${NGINX_HTTP_PORT}:80"
+      - "${NGINX_HTTPS_PORT}:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/certs:/etc/nginx/certs:ro
+    networks:
+      - frontend_net
+      - backend_net
