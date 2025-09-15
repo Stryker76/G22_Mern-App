@@ -1,7 +1,8 @@
-FROM node:18-alpine
+# Goes in mern-app/server/
+FROM node:latest
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci --omit=dev
+RUN npm install
 COPY . .
 EXPOSE 5000
 CMD ["node", "server.js"]

@@ -1,6 +1,6 @@
 const dbName = process.env.APP_DB_NAME || 'employees';
 const user = process.env.APP_DB_USERNAME || 'appuser';
-const pass = process.env.APP_DB_PASSWORD || 'pass';
+const pass = process.env.APP_DB_PASSWORD || 'g22';
 const appDb = db.getSiblingDB(dbName);
 appDb.createUser({ user, pwd: pass, roles: [{ role: 'readWrite', db: dbName }] });
 

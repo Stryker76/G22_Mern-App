@@ -1,73 +1,86 @@
 # G22 MERN App
 
-A full-stack [MERN](https://www.mongodb.com/mern-stack) application for managing information of employees.
+A full-stack [MERN](https://www.mongodb.com/mern-stack) application for managing employee information with Docker and Kubernetes deployment support.
 
-## About the project
+## About the Project
 
-This is a full-stack MERN application that manages the basic information of employees. The app uses an employee database from MongoDB and displays it using a React frontend.
+This is a complete MERN stack application that manages employee information with full CRUD operations. The application is containerized and includes database management interface, HTTPS support, and Kubernetes orchestration.
 
 ## Tech Stack
 
-**Client:** React, Bootstrap
+**Frontend:** React, Bootstrap  
+**Backend:** Node.js, Express.js  
+**Database:** MongoDB  
+**Deployment:** Docker, Docker Compose, Kubernetes (Minikube)  
+**Proxy:** Nginx with SSL/TLS support
 
-**Server:** NodeJS, ExpressJS
+## Features
 
-**Database:** MongoDB
+- ✅ **Employee Management**: Create, read, update, and delete employee records
+- ✅ **Database UI**: Mongo Express interface for direct database management
+- ✅ **HTTPS Support**: SSL/TLS encryption for secure connections
+- ✅ **Container Orchestration**: Docker Compose and Kubernetes deployment options
+- ✅ **Network Segmentation**: Isolated networks for security
+- ✅ **Persistent Storage**: Data persistence with Docker volumes
 
-## Run locally
+## Quick Start
 
-### Quick Start (Development)
+For **complete deployment instructions on AWS EC2 Ubuntu**, see:
+📋 **[COMPLETE-DEPLOYMENT-GUIDE.md](COMPLETE-DEPLOYMENT-GUIDE.md)**
+
+### Local Development
 ```bash
 git clone https://github.com/Stryker76/G22_Mern-App.git
 cd G22_Mern-App
-npm run install:all
 cp .env.example .env
+npm run install:all
 npm run dev
 ```
 
-### Expected URLs (Development)
-* API: [http://localhost:5000](http://localhost:5000) or whatever `PORT` in `.env`
-* Frontend: [http://localhost:3000](http://localhost:3000)
-
-### Docker Compose Deployment
+### Production Deployment (Docker Compose)
 ```bash
-# Deploy with Docker Compose (includes database UI)
 ./deploy-docker.sh
-
-# Or manually:
-docker-compose up --build -d
 ```
-
-**Access URLs (Docker Compose):**
-* **Frontend**: https://localhost:443
-* **Database UI**: https://localhost:443/db/ (admin/g22)
-* **API**: https://localhost:443/api
 
 ### Kubernetes Deployment
 ```bash
-# Deploy with Kubernetes
 ./deploy-k8s.sh
-
-# Or manually:
-kubectl apply -f infra/k8s/
 ```
 
-**Access URLs (Kubernetes):**
-* **Frontend**: http://localhost:32000
-* **Database UI**: http://localhost:30081 (admin/g22)
-* **API**: http://localhost:30080
+## Access URLs
 
-📋 **For detailed deployment instructions, see [DEPLOYMENT-GUIDE.md](DEPLOYMENT-GUIDE.md)**
+**Docker Compose:**
+- Frontend: https://localhost:443
+- Database UI: https://localhost:443/db/ (admin/g22)
+- API: https://localhost:443/api
 
-## Features in the project
+**Kubernetes:**
+- Frontend: http://MINIKUBE_IP:32000
+- Database UI: http://MINIKUBE_IP:30081 (admin/g22)
+- API: http://MINIKUBE_IP:30080
 
-- The user can **create** the information of a employee, and managing it.
+## Architecture
 
-- **Displaying** the information of employees, including the name, position, and level of the employee.
+### Container Architecture (Docker Compose)
+- **Frontend Container**: React app with nginx server
+- **Backend Container**: Node.js/Express API server  
+- **Database Container**: MongoDB with persistent volume
+- **Database UI Container**: Mongo Express for database management
+- **Nginx Proxy**: HTTPS termination and reverse proxy
 
-- Includes **Update** and **Delete** actions.
+### Network Topology
+- `frontend_net`: Frontend ↔ Nginx
+- `backend_net`: Backend ↔ Frontend ↔ Nginx ↔ Mongo Express  
+- `db_net`: Database ↔ Backend ↔ Mongo Express
 
-## Learn More
+## Documentation
+
+- 📋 **[Complete Deployment Guide](COMPLETE-DEPLOYMENT-GUIDE.md)** - Start-to-finish AWS EC2 Ubuntu setup
+- 📋 **[Deployment Guide](DEPLOYMENT-GUIDE.md)** - Original deployment documentation
+- ✅ **[Demo Checklist](DEMO-CHECKLIST.md)** - Verification steps for marking
+- 🧹 **[Cleanup Summary](CLEANUP-SUMMARY.md)** - Cleanup procedures
+
+## Learning Resources
 
 **FrontEnd**
 
