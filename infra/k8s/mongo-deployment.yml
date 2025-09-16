@@ -40,7 +40,7 @@ spec:
             - name: APP_DB_USERNAME
               value: appuser
             - name: APP_DB_PASSWORD
-              value: pass
+              value: g22
             - name: MONGO_INITDB_DATABASE
               value: employees
           ports:
