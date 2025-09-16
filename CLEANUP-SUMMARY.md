@@ -38,7 +38,8 @@ This repository has been cleaned up and standardized according to the provided r
 ### ✅ Environment Variables Standardized
 - Updated `.env.example` with standard MERN variables:
   - `MONGO_URI`, `JWT_SECRET`, `PORT`, `NODE_ENV`, `CLIENT_URL`
-  - Kept Docker-specific variables for compose compatibility
+  - Kept Docker-specific variables for compose compatibility:
+    - `ADMIN_USER`, `ADMIN_PASS`, `APP_DB_NAME`, `APP_DB_USERNAME`, `APP_DB_PASSWORD`, `MONGO_PORT`, `BACKEND_PORT`, `FRONTEND_PORT`
 
 ### ✅ Infrastructure Cleanup
 - Moved unused `k8s/` and `scripts/` to `infra/` directory  

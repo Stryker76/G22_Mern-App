@@ -7,7 +7,7 @@ if (!(Test-Path "nginx\certs")) {
 }
 
 # Generate self-signed certificate using PowerShell
-$cert = New-SelfSignedCertificate -DnsName "localhost" -CertStoreLocation "cert:\LocalMachine\My" -KeyAlgorithm RSA -KeyLength 2048 -NotAfter (Get-Date).AddDays(365)
+$cert = New-SelfSignedCertificate -DnsName "localhost" -CertStoreLocation "cert:\CurrentUser\My" -KeyAlgorithm RSA -KeyLength 2048 -NotAfter (Get-Date).AddDays(365)
 
 # Export certificate to file
 $certPath = "nginx\certs\localhost.crt"
@@ -28,9 +28,14 @@ $certBytes = $pfx.Export([System.Security.Cryptography.X509Certificates.X509Cont
 $certPem = "-----BEGIN CERTIFICATE-----`n" + [System.Convert]::ToBase64String($certBytes, [System.Base64FormattingOptions]::InsertLineBreaks) + "`n-----END CERTIFICATE-----"
 $certPem | Out-File -FilePath $certPath -Encoding ASCII
 
+# Export private key in PEM format
+$keyBytes = $pfx.PrivateKey.ExportRSAPrivateKey()
+$keyPem = "-----BEGIN PRIVATE KEY-----`n" + [System.Convert]::ToBase64String($keyBytes, [System.Base64FormattingOptions]::InsertLineBreaks) + "`n-----END PRIVATE KEY-----"
+$keyPem | Out-File -FilePath $keyPath -Encoding ASCII
+
 Write-Host "SSL certificates generated successfully in nginx/certs/"
 Write-Host "Note: For production use, obtain certificates from a trusted CA"
 
 # Clean up temporary files
 Remove-Item "nginx\certs\localhost.pfx" -ErrorAction SilentlyContinue
-Remove-Item "cert:\LocalMachine\My\$($cert.Thumbprint)" -ErrorAction SilentlyContinue
+Remove-Item "cert:\CurrentUser\My\$($cert.Thumbprint)" -ErrorAction SilentlyContinue

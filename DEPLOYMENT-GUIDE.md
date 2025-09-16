@@ -31,7 +31,11 @@ chmod +x deploy-docker.sh
 ./deploy-docker.sh
 
 # OR manually:
+# Note: some systems use the standalone 'docker-compose' binary, others use the Docker CLI subcommand 'docker compose'.
+# Try one of the following based on your environment:
 docker-compose up --build -d
+# or
+docker compose up --build -d
 ```
 
 ### 3. Access the Application
@@ -133,14 +137,14 @@ kubectl delete configmap --all
 The application uses the following environment variables (defined in `.env.example`):
 
 ```env
-# Application settings
+# Standard MERN environment variables
 MONGO_URI=mongodb://appuser:pass@localhost:27017/employees?authSource=employees
 JWT_SECRET=your-jwt-secret-here
 PORT=5000
 NODE_ENV=development
 CLIENT_URL=http://localhost:3000
 
-# Docker/Compose specific
+# Docker/Compose specific (optional, override as needed)
 ADMIN_USER=admin
 ADMIN_PASS=g22
 APP_DB_NAME=employees
@@ -150,6 +154,10 @@ MONGO_PORT=27017
 BACKEND_PORT=5000
 FRONTEND_PORT=3000
 ```
+
+- For Docker Compose, these variables are set in `docker-compose.yml`.
+- For Kubernetes, set as env in deployment YAMLs or use secrets/configmaps.
+- For local dev, copy `.env.example` to `.env` and fill in real values.
 
 ## Database Access
 
